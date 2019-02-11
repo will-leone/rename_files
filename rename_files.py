@@ -29,10 +29,6 @@ def file_rename(path=os.getcwd()):
     delta = delta_input_end - delta_input_start
     with os.scandir(os.getcwd()) as mydir:
         for item in mydir:
-            if (scope.strip() in ('both', 'filenames') and item.is_file()
-                    and str_old in item.name):
-                new_name = (item.name).replace(str_old, str_new)
-                os.rename(item.path, new_name)
             if scope.strip() in ('both', 'files') and any(extension in item.name
                     for extension in ['.sas', '.sql', '.csv', '.txt']):
                 with open(item.name, 'r') as file:
@@ -40,6 +36,10 @@ def file_rename(path=os.getcwd()):
                 new_contents = contents.replace(str_old, str_new)
                 with open(item.name, 'w') as file:
                     file.write(new_contents)
+            if (scope.strip() in ('both', 'filenames') and item.is_file()
+                    and str_old in item.name):
+                new_name = (item.name).replace(str_old, str_new)
+                os.rename(item.path, new_name)
     return
 
 
